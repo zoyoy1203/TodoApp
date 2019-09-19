@@ -13,7 +13,8 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '123456',
-    database: 'db_todoapp'
+    database: 'db_todoapp',
+    multipleStatements: true // 支持执行多条 sql 语句
 })
 //Connect
 db.connect((err) => {

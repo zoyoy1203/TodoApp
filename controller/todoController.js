@@ -12,11 +12,11 @@ module.exports = function (app,db) {
     //获取数据
     app.get('/todo',function (req,res) {
         // res.render('todo',{todos:data});
-        let sql = 'SELECT * FROM todo_text';
+        let sql = 'SELECT * FROM todo_text  WHERE `check`=0; SELECT * FROM todo_text  WHERE `check`=1';
         db.query(sql, (err, result) => {
             if (err) throw err;
             // console.log(result)
-            res.render('todo',{todos:result})
+            res.render('todo',{todos:result[0],checks:result[1]})
         })
     });
     //传递数据
@@ -48,5 +48,15 @@ module.exports = function (app,db) {
         })
 
         // res.json(data);
+    });
+    //更新数据
+    app.get('/updatetodo/:id',(req, res) => {
+        let sql = "UPDATE `todo_text` SET `check` =1-`check` WHERE id = " +`${req.params.id}`;
+        console.log(sql);
+        db.query(sql, (err, result) => {
+            if(err) throw err;
+            console.log(result);
+            res.json(result);
+        });
     });
 }
